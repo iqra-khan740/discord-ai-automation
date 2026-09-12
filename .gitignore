@@ -1,0 +1,10 @@
+# Secrets / local config
+.env
+*.env.local
+credentials.json
+
+# n8n
+.n8n/
+
+# OS
+.DS_Store

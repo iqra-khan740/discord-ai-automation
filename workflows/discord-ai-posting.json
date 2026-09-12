@@ -1,0 +1,401 @@
+{
+  "name": "Telegram/Discord Posting",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "calendarId": {
+          "__rl": true,
+          "value": "624c0cacc90227c936362b97502a488504acfbce724beb1fa072c52beb1806c8@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Social Media Posts"
+        },
+        "triggerOn": "eventCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTrigger",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        32
+      ],
+      "id": "3f1d9bc2-1cdd-459d-a265-89146be12d05",
+      "name": "Google Calendar Trigger",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "DzJ837RtDUXE2boR",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "ai-automation.jpg",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -544,
+        -112
+      ],
+      "id": "41a05488-e1c0-42c1-b7d1-6f7746dcd0fc",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "DwLXWcdbaF5DREef",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        256,
+        32
+      ],
+      "id": "fb5c7960-4748-4063-95e1-8fd51b5a579b",
+      "name": "Merge",
+      "alwaysOutputData": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        -112
+      ],
+      "id": "92873348-a5ef-449d-bf9c-91211cc471b3",
+      "name": "Download Image",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "DwLXWcdbaF5DREef",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -32,
+        176
+      ],
+      "id": "74fe3957-11b4-4acc-8d70-ae713d1890d2",
+      "name": "Download Text",
+      "alwaysOutputData": true,
+      "retryOnFail": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "DwLXWcdbaF5DREef",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Analyze this image and provide:\n\n1. A detailed description of the visual content\n2. The main subject and theme\n3. The mood and style\n4. Any visible text\n5. The best social media content angle\n\nReturn the analysis in a clear format that can be used to generate a social media caption.\n\n \n\nBased on the image analysis, generate an engaging social media caption.\n\nInclude:\n- Strong hook\n- Natural caption\n- Call to action\n- 5 relevant hashtags",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -96,
+        -224
+      ],
+      "id": "75615b6d-8b52-4893-b8ee-73a0184c03a7",
+      "name": "AI Agent",
+      "alwaysOutputData": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": "gemma4:31b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "261e2f6f-f69b-438c-b317-c00c44acae59",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "UMhSGUg5cR9CHzc8",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"image_description\": \"string\",\n  \"main_topic\": \"string\",\n  \"caption\": \"string\",\n  \"hashtags\": [\n    \"string\"\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        0
+      ],
+      "id": "9f35a6f3-526c-4644-b790-424b55356840",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.output.caption + '\\n\\n' + $json.output.hashtags.join(' ') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        480,
+        32
+      ],
+      "id": "894cbbe7-bdc2-4b0d-884a-4e48ce2d6a6f",
+      "name": "HTTP Request",
+      "alwaysOutputData": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "AI Automation for Small Businesses.txt",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        176
+      ],
+      "id": "1699ed2c-1d5c-4256-8baf-5a1a84524d94",
+      "name": "Search files and folders1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "DwLXWcdbaF5DREef",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Google Calendar Trigger": [
+      {
+        "json": {
+          "kind": "calendar#event",
+          "etag": "\"3569474066393470\"",
+          "id": "019kb9ibgubmgbpvlef0nakmf5",
+          "status": "confirmed",
+          "htmlLink": "https://www.google.com/calendar/event?eid=MDE5a2I5aWJndWJtZ2JwdmxlZjBuYWttZjUgNjI0YzBjYWNjOTAyMjdjOTM2MzYyYjk3NTAyYTQ4ODUwNGFjZmJjZTcyNGJlYjFmYTA3MmM1MmJlYjE4MDZjOEBn",
+          "created": "2026-07-22T16:17:13.000Z",
+          "updated": "2026-07-22T16:17:13.196Z",
+          "creator": {
+            "email": "iqra27863@gmail.com"
+          },
+          "organizer": {
+            "email": "624c0cacc90227c936362b97502a488504acfbce724beb1fa072c52beb1806c8@group.calendar.google.com",
+            "displayName": "Social Media Posts",
+            "self": true
+          },
+          "start": {
+            "date": "2026-07-19"
+          },
+          "end": {
+            "date": "2026-07-20"
+          },
+          "transparency": "transparent",
+          "visibility": "public",
+          "iCalUID": "019kb9ibgubmgbpvlef0nakmf5@google.com",
+          "sequence": 0,
+          "reminders": {
+            "useDefault": false
+          },
+          "eventType": "default"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Google Calendar Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search files and folders1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Download Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Text": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders1": {
+      "main": [
+        [
+          {
+            "node": "Download Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "c6b61f39-2de2-4cde-b5ad-ab1811afe12d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "241b221964b71f176e86e7b354eb5999b7543ad5b3638a94b8a49618e30f5672"
+  },
+  "nodeGroups": [],
+  "id": "iZ7Hxwn1ZFGIvSyC",
+  "tags": [
+    {
+      "updatedAt": "2026-07-18T14:47:01.591Z",
+      "createdAt": "2026-07-18T14:47:01.591Z",
+      "id": "iDrHUxDEQ55QccCT",
+      "name": "Internship/YouTube"
+    }
+  ]
+}
