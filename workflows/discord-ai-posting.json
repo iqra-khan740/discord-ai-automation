@@ -12,9 +12,9 @@
         },
         "calendarId": {
           "__rl": true,
-          "value": "624c0cacc90227c936362b97502a488504acfbce724beb1fa072c52beb1806c8@group.calendar.google.com",
+          "value": "ADD_YOUR_CALENDAR_ID_HERE",
           "mode": "list",
-          "cachedResultName": "Social Media Posts"
+          "cachedResultName": "ADD_YOUR_CALENDAR_NAME_HERE"
         },
         "triggerOn": "eventCreated",
         "options": {}
@@ -29,8 +29,8 @@
       "name": "Google Calendar Trigger",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "DzJ837RtDUXE2boR",
-          "name": "Google Calendar account"
+          "id": "ADD_YOUR_CREDENTIALS_HERE",
+          "name": "ADD_YOUR_CREDENTIALS_HERE"
         }
       }
     },
@@ -52,8 +52,8 @@
       "name": "Search files and folders",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "DwLXWcdbaF5DREef",
-          "name": "Google Drive account"
+          "id": "ADD_YOUR_CREDENTIALS_HERE",
+          "name": "ADD_YOUR_CREDENTIALS_HERE"
         }
       }
     },
@@ -96,8 +96,8 @@
       "retryOnFail": true,
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "DwLXWcdbaF5DREef",
-          "name": "Google Drive account"
+          "id": "ADD_YOUR_CREDENTIALS_HERE",
+          "name": "ADD_YOUR_CREDENTIALS_HERE"
         }
       }
     },
@@ -123,8 +123,8 @@
       "retryOnFail": true,
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "DwLXWcdbaF5DREef",
-          "name": "Google Drive account"
+          "id": "ADD_YOUR_CREDENTIALS_HERE",
+          "name": "ADD_YOUR_CREDENTIALS_HERE"
         }
       }
     },
@@ -161,8 +161,8 @@
       "name": "Ollama Chat Model",
       "credentials": {
         "ollamaApi": {
-          "id": "UMhSGUg5cR9CHzc8",
-          "name": "Ollama account"
+          "id": "ADD_YOUR_CREDENTIALS_HERE",
+          "name": "ADD_YOUR_CREDENTIALS_HERE"
         }
       }
     },
@@ -182,7 +182,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN",
+        "url": "ADD_YOUR_DISCORD_WEBHOOK_URL_HERE",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -223,52 +223,13 @@
       "name": "Search files and folders1",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "DwLXWcdbaF5DREef",
-          "name": "Google Drive account"
+          "id": "ADD_YOUR_CREDENTIALS_HERE",
+          "name": "ADD_YOUR_CREDENTIALS_HERE"
         }
       }
     }
   ],
-  "pinData": {
-    "Google Calendar Trigger": [
-      {
-        "json": {
-          "kind": "calendar#event",
-          "etag": "\"3569474066393470\"",
-          "id": "019kb9ibgubmgbpvlef0nakmf5",
-          "status": "confirmed",
-          "htmlLink": "https://www.google.com/calendar/event?eid=MDE5a2I5aWJndWJtZ2JwdmxlZjBuYWttZjUgNjI0YzBjYWNjOTAyMjdjOTM2MzYyYjk3NTAyYTQ4ODUwNGFjZmJjZTcyNGJlYjFmYTA3MmM1MmJlYjE4MDZjOEBn",
-          "created": "2026-07-22T16:17:13.000Z",
-          "updated": "2026-07-22T16:17:13.196Z",
-          "creator": {
-            "email": "iqra27863@gmail.com"
-          },
-          "organizer": {
-            "email": "624c0cacc90227c936362b97502a488504acfbce724beb1fa072c52beb1806c8@group.calendar.google.com",
-            "displayName": "Social Media Posts",
-            "self": true
-          },
-          "start": {
-            "date": "2026-07-19"
-          },
-          "end": {
-            "date": "2026-07-20"
-          },
-          "transparency": "transparent",
-          "visibility": "public",
-          "iCalUID": "019kb9ibgubmgbpvlef0nakmf5@google.com",
-          "sequence": 0,
-          "reminders": {
-            "useDefault": false
-          },
-          "eventType": "default"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "connections": {
     "Google Calendar Trigger": {
       "main": [
@@ -386,7 +347,7 @@
   "versionId": "c6b61f39-2de2-4cde-b5ad-ab1811afe12d",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "241b221964b71f176e86e7b354eb5999b7543ad5b3638a94b8a49618e30f5672"
+    "instanceId": "ADD_YOUR_INSTANCE_ID_HERE"
   },
   "nodeGroups": [],
   "id": "iZ7Hxwn1ZFGIvSyC",
